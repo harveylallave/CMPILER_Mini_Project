@@ -39,5 +39,6 @@
 \%                { return MOD; }
 \(                { return OPAREN; }
 \)                { return CPAREN; }
-\Z|\n             { return EOL; }
+\n                { return EOL;}
+
 %%

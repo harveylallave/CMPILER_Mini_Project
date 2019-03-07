@@ -47,7 +47,7 @@ start: input
 | start input
 ;
 
-input: expression            
+input: expression            {if(print) cout << "" << $1 << endl; else print = true;} 
 | expression EOL             {if(print) cout << "" << $1 << endl; else print = true;}
 ;
 
