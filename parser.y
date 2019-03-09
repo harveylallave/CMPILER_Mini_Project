@@ -66,8 +66,16 @@ expression2: expression3
                                     $$ = 0;
                                 } else $$ = ($1 / $3); 
                               }
-| expression2 MOD expression3 { $$ = $1 % $3; }
-;
+
+| expression2 MOD expression3 {
+                                if($3 == 0){
+                                  if(print){
+                                    cout << "Error: (modulo): cannot divide by 0";
+                                    print  = false;
+                                  }
+                                  $$ = 0;
+                                } else $$ = ($1 % $3);
+                              }
 
 expression3: expression4     
 | expression3 MUL expression4 { $$ = $1 * $3; }
