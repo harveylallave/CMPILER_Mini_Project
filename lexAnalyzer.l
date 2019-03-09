@@ -1,6 +1,5 @@
 
-
-/* CMPILER Mini Project (Simple Calculator) - https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html https://www.youtube.com/watch?v=pu0hX5lftQU http://aquamentus.com/flex_bison.html */
+/* CMPILER Mini Project (Simple Calculator) */
 
 /* Bison should run first (because we're getting the list of tokens from bison) */
 
