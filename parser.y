@@ -75,14 +75,14 @@ expression2: expression3
 expression3: expression4            
 | POSITIVENUM                 { $$ = $1;      }
 | NEGATIVENUM                 { $$ = $1 * -1; }
-| expression4 INT             { print = false; cout << "Error: syntax error" << endl; }
+| expression4 INT             { print = false; cout << "Syntax error: missing an operator (cannot multiply through parenthesis)" << endl; }
 ;
 
 
 expression4: INT                { $$ = $1;}
 | OPAREN expression CPAREN      { $$ = $2;}
-| INT OPAREN expression CPAREN  { print = false; cout << "Error: syntax error" << endl;}
-| INT INT                       { print = false; cout << "Error: syntax error" << endl;}
+| INT OPAREN expression CPAREN  { print = false; cout << "Syntax error: missing an operator (cannot multiply through parenthesis)" << endl;}
+| INT INT                       { print = false; cout << "Syntax error: missing an operator" << endl;}
 | LEXERROR                        {cout << "Lexical error: invalid character" << endl; print = false;} 
 ;
 
