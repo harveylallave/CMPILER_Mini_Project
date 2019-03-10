@@ -29,7 +29,6 @@
 %type  <ival> expression2
 %type  <ival> expression3
 %type  <ival> expression4
-%type  <ival> expression5
 
 %%
 
@@ -70,19 +69,17 @@ expression2: expression3
                                   $$ = 0;
                                 } else $$ = ($1 % $3);
                               }
-
-expression3: expression4     
-| expression3 MUL expression4 { $$ = $1 * $3; }
+| expression2 MUL expression3 { $$ = $1 * $3; }
 ; 
 
-expression4: expression5            
+expression3: expression4            
 | POSITIVENUM                 { $$ = $1;      }
 | NEGATIVENUM                 { $$ = $1 * -1; }
-| expression5 INT             { print = false; cout << "Error: syntax error" << endl; }
+| expression4 INT             { print = false; cout << "Error: syntax error" << endl; }
 ;
 
 
-expression5: INT                { $$ = $1;}
+expression4: INT                { $$ = $1;}
 | OPAREN expression CPAREN      { $$ = $2;}
 | INT OPAREN expression CPAREN  { print = false; cout << "Error: syntax error" << endl;}
 | INT INT                       { print = false; cout << "Error: syntax error" << endl;}
