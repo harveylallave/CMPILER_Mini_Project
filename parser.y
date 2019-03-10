@@ -44,6 +44,8 @@ input: expression EOL             {if(print) cout << "" << $1 << endl; else prin
 ;
 
 expression: expression2       
+| expression POSITIVENUM     { $$ = $1 + $2; }
+| expression NEGATIVENUM     { $$ = $1 - $2; }
 | expression SUB expression2 { $$ = $1 - $3; }
 | expression ADD expression2 { $$ = $1 + $3; }
 ;
