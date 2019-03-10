@@ -29,7 +29,6 @@
                     temp[strlen(yytext) - 1] = '\0';
                     yylval.ival = atoi(temp); 
                     return POSITIVENUM; }
-[0-9]+\.[0-9]+    { yylval.fval = atof(yytext); return FLOAT; }
 [0-9]+            { yylval.ival = atoi(yytext); return INT; }
 \+                { return ADD; }
 \-                { return SUB; }
@@ -38,6 +37,7 @@
 \%                { return MOD; }
 \(                { return OPAREN; }
 \)                { return CPAREN; }
-\n                { return EOL;}
+\n                { return EOL; }
+.*[a-z|A-Z|\!|\@|\#|\$|\^|\&|\_|\=|\`|\~|\[|\]|\;|\:\'|\"|\,|\<|\.|\>|\\|\||\?].* { return LEXERROR; }
 
 %%

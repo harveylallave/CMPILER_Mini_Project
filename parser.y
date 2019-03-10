@@ -20,7 +20,7 @@
 %token <ival> INT NEGATIVENUM POSITIVENUM 
 %token <fval> FLOAT
 %token <sval> STRING 
-%token        EOL
+%token        EOL LEXERROR
 
 %right      SUB ADD MOD DIV MUL INT 
 %precedence OPAREN CPAREN 
@@ -34,12 +34,12 @@
 
 start: input
 | start input
-| error       
+| error     
 ;
 
 input: expression EOL             {if(print) cout << "" << $1 << endl; else print = true;}
 | expression                      {if(print) cout << "" << $1 << endl; else print = true;}
-| expression error                {print = false;}
+| expression error                {print = false;} 
 ;
 
 expression: expression2       
@@ -83,6 +83,7 @@ expression4: INT                { $$ = $1;}
 | OPAREN expression CPAREN      { $$ = $2;}
 | INT OPAREN expression CPAREN  { print = false; cout << "Error: syntax error" << endl;}
 | INT INT                       { print = false; cout << "Error: syntax error" << endl;}
+| LEXERROR                        {cout << "Lexical error: invalid character" << endl; print = false;} 
 ;
 
 
