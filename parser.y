@@ -22,7 +22,7 @@
 %token <sval> STRING 
 %token        EOL
 
-%right      ADD SUB MUL DIV MOD INT 
+%right      SUB ADD MOD DIV MUL INT 
 %precedence OPAREN CPAREN 
 
 %type  <ival> expression
