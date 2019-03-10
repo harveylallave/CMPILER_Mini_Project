@@ -18,12 +18,14 @@
 }
 
 %token <ival> INT NEGATIVENUM POSITIVENUM 
-%token <fval> FLOAT
-%token <sval> STRING 
 %token        EOL LEXERROR
 
-%right      SUB ADD MOD DIV MUL INT 
-%precedence OPAREN CPAREN 
+%right      SUB ADD 
+%right      MOD DIV MUL 
+%right      INT NEGATIVENUM POSITIVENUM 
+%right      error LEXERROR
+%right      OPAREN CPAREN 
+%right      EOL 
 
 %type  <ival> expression
 %type  <ival> expression2
@@ -32,15 +34,19 @@
 
 %%
 
-start: input
-| start input
-| error     
+start: input                      
+| start input                    {print = true;}
+| error 
 ;
 
-input: expression EOL             {if(print) cout << "" << $1 << endl; else print = true;}
-| expression                      {if(print) cout << "" << $1 << endl; else print = true;}
-| expression error                {print = false;} 
+input: expression EOL             { if(print) cout << "" << $1 << endl; else print = true;}
+| expression                      { if(print) cout << "" << $1 << endl; else print = true;}
+| expression error                { print = false; } 
+| error expression                { print = false; }
+| expression INT                  { print = false; cout << "Syntax error: missing an operator" << endl;}                           
+| EOL 
 ;
+
 
 expression: expression2       
 | expression POSITIVENUM     { $$ = $1 + $2; }
@@ -53,17 +59,16 @@ expression2: expression3
 | expression2 DIV expression3 { 
                                 if($3 == 0){
                                     if(print){
-                                        cout << "Error: division by zero" << endl;     
+                                        cout << "Syntax error: division by zero" << endl;     
                                         print = false;
                                     }
                                     $$ = 0;
                                 } else $$ = ($1 / $3); 
                               }
-
 | expression2 MOD expression3 {
                                 if($3 == 0){
                                   if(print){
-                                    cout << "Error (modulo): division by zero" << endl;
+                                    cout << "Syntax error: division by zero (modulo)" << endl;
                                     print  = false;
                                   }
                                   $$ = 0;
@@ -75,15 +80,16 @@ expression2: expression3
 expression3: expression4            
 | POSITIVENUM                 { $$ = $1;      }
 | NEGATIVENUM                 { $$ = $1 * -1; }
-| expression4 INT             { print = false; cout << "Syntax error: missing an operator (cannot multiply through parenthesis)" << endl; }
+| expression4 INT             { print = false; cout << "Syntax error: missing an operator (cannot multiply through parentheses)" << endl; }
 ;
 
 
 expression4: INT                { $$ = $1;}
 | OPAREN expression CPAREN      { $$ = $2;}
-| INT OPAREN expression CPAREN  { print = false; cout << "Syntax error: missing an operator (cannot multiply through parenthesis)" << endl;}
+| OPAREN CPAREN                 { print = false; cout << "Syntax error: missing an expression before ')'" << endl;}
+| INT OPAREN expression CPAREN  { print = false; cout << "Syntax error: missing an operator (cannot multiply through parentheses)" << endl;}
 | INT INT                       { print = false; cout << "Syntax error: missing an operator" << endl;}
-| LEXERROR                        {cout << "Lexical error: invalid character" << endl; print = false;} 
+| LEXERROR                      { cout << "Lexical error: invalid character" << endl; print = false; } 
 ;
 
 
@@ -109,7 +115,8 @@ int main(int, char**) {
 }
 
 void yyerror(char const *s) {
-  cout << "Error: " << s << endl;
+  // if(print != false)
+    cout << "Error: " << s << endl;
   print = false;
 }
 
