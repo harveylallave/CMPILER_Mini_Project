@@ -5,7 +5,7 @@
 
 /*      % bison -d parser.y                                 */
 /*      % flex lexAnalyzer.l                                */
-/*      % g++ parser.tab.c lex.yy.c -lfl -o lexAnalyzer     */
+/*      % g++ parser.tab.c lex.yy.c -o lexAnalyzer          */
 /*      % lexAnalyzer                                       */
 
 %{
@@ -14,8 +14,9 @@
   #include <iostream>
 
   #include "parser.tab.h"  // to get the token types from Bison
-
 %}
+
+%option noyywrap
 
 %%
 [ \t]             ;
