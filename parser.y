@@ -50,7 +50,7 @@ expression: expression2
 | expression NEGATIVENUM     { $$ = $1 - $2; }
 | expression SUB expression2 { $$ = $1 - $3; }
 | expression ADD expression2 { $$ = $1 + $3; }
-| expression error           {}
+| expression error           { print = false;}
 | error EOL                  {}  
 | error                      {}
 ;
@@ -115,8 +115,9 @@ int main(int, char**) {
 }
 
 void yyerror(char const *s) {
-  // if(print != false)
-    cout << "ErrorAA: " << s << (yychar == EOL) <<endl;
+  // if(print){
+    cout << "ErrorAA: " << s << (yychar) <<endl;
     print = false;
+  // } else print = true;
 }
 
