@@ -59,7 +59,7 @@ expression2: expression3
 | expression2 DIV expression3 { 
                                 if($3 == 0){
                                     if(print){
-                                        cout << "Syntax error: division by zero" << endl;     
+                                        cout << "Error: division by zero" << endl;     
                                         print = false;
                                     }
                                     $$ = 0;
@@ -68,7 +68,7 @@ expression2: expression3
 | expression2 MOD expression3 {
                                 if($3 == 0){
                                   if(print){
-                                    cout << "Syntax error: division by zero (modulo)" << endl;
+                                    cout << "Error: division by zero (modulo)" << endl;
                                     print  = false;
                                   }
                                   $$ = 0;
