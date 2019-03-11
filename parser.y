@@ -87,8 +87,8 @@ expression3: expression4
 expression4: INT                { $$ = $1;}
 | OPAREN expression CPAREN      { $$ = $2;}
 | OPAREN CPAREN                 { if(print) {print = false; cout << "Syntax error: missing an expression before ')'" << endl;}}
-| OPAREN expression EOL         { if(print) {print = false; yychar = EOL; cout << "Syntax error: missing a ')'" << endl;}}
-| OPAREN  EOL         { if(print) {print = false;  cout << "Syntax error: missing a ')'" << endl;}}
+| OPAREN expression EOL         { yychar = EOL; if(print) {print = false; cout << "Syntax error: missing a ')'" << endl;}}
+| OPAREN  EOL                   { yychar = EOL; if(print) {print = false; cout << "Syntax errorA: missing a ')'" << endl;}}
 | INT OPAREN expression CPAREN  { if(print) {print = false; cout << "Syntax error: missing an operator (cannot multiply through parentheses)" << endl;}}
 | INT INT                       { if(print) {print = false; cout << "Syntax error: missing an operator" << endl;}}
 | LEXERROR                      { if(print) {print = false; cout << "Lexical error: invalid character"  << endl;}} 
